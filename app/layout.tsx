@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import NavLink from "@/components/ui/NavLink";
+import { ModalProvider } from "@/providers/ModalContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +29,21 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-zinc-50 dark:bg-black">
+        <ModalProvider>
+          <div className="flex flex-col flex-1 px-20 py-10 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+            <nav className='px-50 mb-5 '>
+              <NavLink href="/">Home</NavLink>
+            </nav>
+
+            <main className="flex-1 w-full max-w-3xl p-16 bg-white dark:bg-black sm:items-start">
+              {children}
+            </main>
+          </div>
+        </ModalProvider>
+
+        <div id="modal-container"></div>
+      </body>
     </html>
   );
 }
