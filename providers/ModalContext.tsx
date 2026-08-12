@@ -1,69 +1,73 @@
 'use client';
 
-import { ModalContextValue } from "@/model/providers";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { createPortal } from "react-dom";
+import { ModalContextValue } from '@/model/providers';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 const ModalContext = createContext<ModalContextValue | null>(null);
 
 export function useModal() {
-    const modalContext = useContext(ModalContext);
+  const modalContext = useContext(ModalContext);
 
-    if (!modalContext) {
-        throw new Error('No provider for modal context');
-    }
+  if (!modalContext) {
+    throw new Error('No provider for modal context');
+  }
 
-    return modalContext;
+  return modalContext;
 }
 
-export function ModalProvider({children}: Readonly<{children: React.ReactNode}>) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [content, setContent] = useState<React.ReactNode | null>(null);
+export function ModalProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [content, setContent] = useState<React.ReactNode | null>(null);
 
-    const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-            setIsOpen(false);
-        }
+  const onKeyDown = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setIsOpen(false);
     }
+  };
 
-    useEffect(() => {
-        window.addEventListener('keydown', onKeyDown);
-        
-        return () => {
-            window.removeEventListener('keydown', onKeyDown);
-        }
-    }, []);
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
 
-    const value = useMemo(
-        () => ({
-            isOpen,
-            open: (content: React.ReactNode | null) => {
-                setIsOpen(true);
-                setContent(content);
-            },
-            close: () => setIsOpen(false)
-        }),
-        [isOpen]
-    );
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
 
-    function onBackdropClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-        e.stopPropagation();
+  const value = useMemo(
+    () => ({
+      isOpen,
+      open: (content: React.ReactNode | null) => {
+        setIsOpen(true);
+        setContent(content);
+      },
+      close: () => setIsOpen(false),
+    }),
+    [isOpen],
+  );
 
-        if (e.target === e.currentTarget) {
-            setIsOpen(false);
-        }
+  function onBackdropClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    e.stopPropagation();
+
+    if (e.target === e.currentTarget) {
+      setIsOpen(false);
     }
+  }
 
-    return <ModalContext.Provider value={value}>
-        {children}
-        {
-            isOpen &&
-            createPortal(
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onKeyDown={onKeyDown} onClick={onBackdropClick}>
-                    {content}
-                </div>,
-                document.querySelector('#modal-container') as Element,
-            )
-        }
+  return (
+    <ModalContext.Provider value={value}>
+      {children}
+      {isOpen &&
+        createPortal(
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+            onKeyDown={onKeyDown}
+            onClick={onBackdropClick}
+          >
+            {content}
+          </div>,
+          document.querySelector('#modal-container') as Element,
+        )}
     </ModalContext.Provider>
+  );
 }

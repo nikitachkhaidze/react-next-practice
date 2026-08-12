@@ -1,11 +1,15 @@
-import NavLink from "@/components/ui/NavLink";
+import NavLink from '@/components/ui/NavLink';
 
 export default function Home() {
-  return <>
-    <h1 className="mb-2">Choose a task:</h1>
+  return (
+    <>
+      <h1 className="mb-2">Choose a task:</h1>
 
-    <ol>
-      <li><NavLink href={'/modal'}>Modal</NavLink></li>
-    </ol>
-  </>
+      <ol>
+        <li>
+          <NavLink href={'/modal'}>Modal</NavLink>
+        </li>
+      </ol>
+    </>
+  );
 }
