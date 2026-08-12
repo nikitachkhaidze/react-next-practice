@@ -1,7 +1,7 @@
 'use client';
 
 import { ModalContextValue } from "@/model/providers";
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 const ModalContext = createContext<ModalContextValue | null>(null);
@@ -19,6 +19,20 @@ export function useModal() {
 export function ModalProvider({children}: Readonly<{children: React.ReactNode}>) {
     const [isOpen, setIsOpen] = useState(false);
     const [content, setContent] = useState<React.ReactNode | null>(null);
+
+    const onKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            setIsOpen(false);
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', onKeyDown);
+        
+        return () => {
+            window.removeEventListener('keydown', onKeyDown);
+        }
+    }, []);
 
     const value = useMemo(
         () => ({
@@ -45,7 +59,7 @@ export function ModalProvider({children}: Readonly<{children: React.ReactNode}>)
         {
             isOpen &&
             createPortal(
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={onBackdropClick}>
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onKeyDown={onKeyDown} onClick={onBackdropClick}>
                     {content}
                 </div>,
                 document.querySelector('#modal-container') as Element,
