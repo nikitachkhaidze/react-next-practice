@@ -9,6 +9,9 @@ export default function Home() {
         <li>
           <NavLink href={'/modal'}>Modal</NavLink>
         </li>
+         <li>
+          <NavLink href={'/date-picker'}>Date Picker</NavLink>
+        </li>
       </ol>
     </>
   );
