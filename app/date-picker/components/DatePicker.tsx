@@ -3,8 +3,8 @@
 import DateButton from '@/app/date-picker/components/DateButton';
 import MonthButton from '@/app/date-picker/components/MonthButton';
 import ActionButton from '@/components/ui/ActionButton';
-import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getMonth, getYear, isEqual, isSameDay, isToday, startOfMonth, startOfWeek, subMonths } from 'date-fns';
-import { useState } from 'react';
+import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getYear, isSameDay, isSameMonth, startOfMonth, startOfWeek, subMonths } from 'date-fns';
+import { useEffect, useRef, useState } from 'react';
 
 type Props = {
   value: Date;
@@ -13,9 +13,37 @@ type Props = {
 
 export default function DatePicker({value, onChange}: Readonly<Props>) {
   const [isOpen, setIsOpen] = useState(false);
+  const [pageDate, setPageDate] = useState(value);
+  const calendarRef = useRef<HTMLDivElement>(null);
 
-  const startOfMonthDate = startOfMonth(value);
-  const endOfMonthDate = endOfMonth(value);
+  useEffect(() => {
+    function documentClickListener(event: MouseEvent) {
+      if (calendarRef.current?.contains(event.target as Node)) {
+        return;
+      }
+
+      setIsOpen(false);
+    }
+
+    function documentEscapeListener(event: KeyboardEvent) {
+      if (event.key !== 'Escape') {
+        return;
+      }
+
+      setIsOpen(false);
+    }
+
+    document.body.addEventListener('click', documentClickListener);
+    document.body.addEventListener('keydown', documentEscapeListener);
+
+    return () => {
+      document.body.removeEventListener('click', documentClickListener);
+      document.body.removeEventListener('keydown', documentEscapeListener);
+    }
+  }, []);
+
+  const startOfMonthDate = startOfMonth(pageDate);
+  const endOfMonthDate = endOfMonth(pageDate);
 
   const startOfWeekDate = startOfWeek(startOfMonthDate);
   const endOfWeekDate = endOfWeek(endOfMonthDate);
@@ -28,24 +56,29 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
     return date;
   })
 
-  const currentMonth = format(value, 'MMMM');
-  const currentYear = getYear(value);
+  const currentMonth = format(pageDate, 'MMMM');
+  const currentYear = getYear(pageDate);
 
   const buttonText = format(value, 'MMM do, yyyy');
 
   const dateButtons = days.map((day) => {
-    return <DateButton onClick={() => onChange(day)} isToday={isSameDay(value, day)} key={day.getTime()}>{day.getDate()}</DateButton>
+    return <DateButton onClick={() => onChange(day)} isToday={isSameDay(value, day)} isOtherMonth={!isSameMonth(pageDate, day)} key={day.getTime()}>{day.getDate()}</DateButton>
   });
 
-  function onMonthChange(v: number) {
-    const newValue = subMonths(value, v);
+  function onButtonClicked() {
+    setIsOpen(isOpen => !isOpen);
+    setPageDate(value);
+  }
 
-    onChange(newValue);
+  function onMonthChange(v: number) {
+    const newValue = subMonths(pageDate, v);
+
+    setPageDate(newValue);
   }
 
   return (
-    <div className="relative inline-block">
-      <ActionButton onClick={() => setIsOpen(isOpen => !isOpen)}>
+    <div className="relative inline-block" ref={calendarRef}>
+      <ActionButton onClick={onButtonClicked} className='w-36'>
         {buttonText}
       </ActionButton>
 
@@ -55,6 +88,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
           <div>{currentMonth} - {currentYear}</div>
           <MonthButton onClick={() => onMonthChange(-1)}>&rarr;</MonthButton>
         </div>
+
         <div className="grid grid-cols-[repeat(7,2rem)] auto-rows-[2rem] gap-2 text-[0.75rem] font-bold text-[#333] *:flex *:h-full *:w-full *:items-center *:justify-center">
           <div>Sun</div>
           <div>Mon</div>
@@ -64,6 +98,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
           <div>Fri</div>
           <div>Sat</div>
         </div>
+
         <div className="grid grid-cols-[repeat(7,2rem)] auto-rows-[2rem] gap-2 text-[#555]">
           {dateButtons}
         </div>
