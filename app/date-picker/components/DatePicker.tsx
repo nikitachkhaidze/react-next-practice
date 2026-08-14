@@ -17,6 +17,10 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
   const calendarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
     function documentClickListener(event: MouseEvent) {
       if (calendarRef.current?.contains(event.target as Node)) {
         return;
@@ -40,7 +44,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
       document.body.removeEventListener('click', documentClickListener);
       document.body.removeEventListener('keydown', documentEscapeListener);
     }
-  }, []);
+  }, [isOpen]);
 
   const startOfMonthDate = startOfMonth(pageDate);
   const endOfMonthDate = endOfMonth(pageDate);
