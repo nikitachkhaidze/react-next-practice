@@ -1,9 +1,9 @@
 'use client';
 
-import DateButton from '@/app/date-picker/components/DateButton';
+import DateGrid from '@/app/date-picker/components/DateGrid';
 import MonthButton from '@/app/date-picker/components/MonthButton';
 import ActionButton from '@/components/ui/ActionButton';
-import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getYear, isSameDay, isSameMonth, startOfMonth, startOfWeek, subMonths } from 'date-fns';
+import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getYear, startOfMonth, startOfWeek, subMonths } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 
 type Props = {
@@ -65,11 +65,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
 
   const buttonText = format(value, 'MMM do, yyyy');
 
-  const dateButtons = days.map((day) => {
-    return <DateButton onClick={() => onChange(day)} isToday={isSameDay(value, day)} isOtherMonth={!isSameMonth(pageDate, day)} key={day.getTime()}>{day.getDate()}</DateButton>
-  });
-
-  function onButtonClicked() {
+  function onTriggerButtonClicked() {
     setIsOpen(isOpen => !isOpen);
     setPageDate(value);
   }
@@ -79,10 +75,15 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
 
     setPageDate(newValue);
   }
+ 
+  function onDayClicked(day: Date) {
+    onChange(day); 
+    setIsOpen(false);
+  }
 
   return (
     <div className="relative inline-block" ref={calendarRef}>
-      <ActionButton onClick={onButtonClicked} className='w-36'>
+      <ActionButton onClick={onTriggerButtonClicked} className='w-36'>
         {buttonText}
       </ActionButton>
 
@@ -104,7 +105,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
         </div>
 
         <div className="grid grid-cols-[repeat(7,2rem)] auto-rows-[2rem] gap-2 text-[#555]">
-          {dateButtons}
+          <DateGrid days={days} value={value} pageDate={pageDate} onChange={onDayClicked} />
         </div>
       </div>}
     </div>
