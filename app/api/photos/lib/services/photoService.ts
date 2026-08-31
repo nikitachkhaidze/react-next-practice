@@ -3,7 +3,7 @@ import type { GetPhotosParams, PaginatedResult } from '../model/photo';
 import { photos } from '../data/photos';
 
 function simulateLatency<T>(value: T): Promise<T> {
-  return new Promise((resolve) => setTimeout(() => resolve(value), 200));
+  return new Promise((resolve) => setTimeout(() => resolve(value), 2000000000));
 }
 
 export async function getPhotos({

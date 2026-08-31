@@ -8,7 +8,6 @@ export default function DatePickerPage() {
 
   function onDateChange(value: Date) {
     setDate(value);
-    console.log('Date changed to:', value);
   }
 
   return (
