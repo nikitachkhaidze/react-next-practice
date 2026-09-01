@@ -33,8 +33,8 @@ export const photos: Photo[] = Array.from(
     return {
       id,
       title: titleFromSeed(id),
-      url: `https://placehold.co/600/${color}/ddd`,
-      thumbnailUrl: `https://placehold.co/150/${color}/ddd`,
+      url: `https://placehold.co/500/${color}/ddd.webp`,
+      color,
     };
   }
 );

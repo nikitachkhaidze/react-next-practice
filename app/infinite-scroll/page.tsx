@@ -3,9 +3,7 @@ import Spinner from "@/components/ui/Spinner";
 import PhotoGallery from "./components/PhotoGallery";
 
 export default function InfiniteScrollPage() {
-    return <div className="flex">
-        <Suspense fallback={<Spinner/>}>
+    return <Suspense fallback={<Spinner/>}>
             <PhotoGallery></PhotoGallery>
         </Suspense>
-    </div>
 };

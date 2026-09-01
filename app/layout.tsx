@@ -23,7 +23,7 @@ export default function RootLayout({
               <NavLink href="/">Home</NavLink>
             </nav>
 
-            <main className="flex-1 w-full max-w-3xl p-16 bg-white dark:bg-black sm:items-start">
+            <main className="flex flex-col flex-1 w-full max-w-3xl p-16 bg-white dark:bg-black sm:items-start">
               {children}
             </main>
           </div>

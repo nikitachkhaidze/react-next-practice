@@ -14,14 +14,14 @@ export default function Modal() {
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repudiandae, deserunt.
         </div>
 
-        <ActionButton text={'Close'} onClick={modal.close}></ActionButton>
+        <ActionButton onClick={modal.close}>Close</ActionButton>
       </Dialog>,
     );
   }
 
   return (
     <div className="flex flex-col gap-5 items-center justify-center">
-      <ActionButton text="Open Modal" onClick={openModal} />
+      <ActionButton onClick={openModal} >Open Modal</ActionButton>
     </div>
   );
 }
