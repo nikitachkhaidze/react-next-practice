@@ -25,7 +25,7 @@ function colorFromSeed(seed: number): string {
 }
 
 export const photos: Photo[] = Array.from(
-  { length: 500 },
+  { length: 80 },
   (_, index) => {
     const id = index + 1;
     const color = colorFromSeed(id);

@@ -6,7 +6,5 @@ export async function getPhotos({
   page = 1,
   limit = 20,
 }: FetchPhotosParams = {}): Promise<PaginatedResult<Photo>> {
-  const url = new URL('/api/photos', process.env.API_BASE_URL);
-  
-  return httpService.get<PaginatedResult<Photo>>(url, { page, limit });
+   return httpService.get<PaginatedResult<Photo>>('/api/photos', { page, limit });
 }
