@@ -1,10 +1,11 @@
 'use client';
 
-import { ComponentRef, useEffect, useRef, useState } from "react"
+import { ComponentRef, RefObject, useEffect, useRef, useState } from "react"
 import { getPhotos } from "../services/photoApiService";
 import { Photo } from "@/model/photo";
 import PhotoGrid from "./PhotoGrid";
 import { PaginatedResult } from "../model/photo";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 type Props = {
     initialPhotos: PaginatedResult<Photo>,
@@ -18,28 +19,16 @@ export default function InfiniteScrollContainer({initialPhotos}: Readonly<Props>
     const loadedPhotosLegthRef = useRef(initialPhotos.data.length);
     const pageRef = useRef(1);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(async (entries) => {
-            if (entries[0].target === sentinelRef.current && entries[0].isIntersecting) {
-                pageRef.current++;
+    useInfiniteScroll(async () => {
+        pageRef.current++;
 
-                const newPhotos = await getPhotos({page: pageRef.current});
+        const newPhotos = await getPhotos({page: pageRef.current});
 
-                setPhotos((current) => [...current, ...newPhotos.data]);
-                setHasMore(newPhotos.total > loadedPhotosLegthRef.current + newPhotos.data.length);
+        setPhotos((current) => [...current, ...newPhotos.data]);
+        setHasMore(newPhotos.total > loadedPhotosLegthRef.current + newPhotos.data.length);
 
-                loadedPhotosLegthRef.current += newPhotos.data.length;
-            }
-        }, {rootMargin: '300px'});
-
-        if (hasMore) {
-            observer.observe(sentinelRef.current as HTMLDivElement)
-        } else {
-            observer.disconnect();
-        }
-
-        return () => observer.disconnect();
-    }, [hasMore])
+        loadedPhotosLegthRef.current += newPhotos.data.length;
+    }, sentinelRef as RefObject<HTMLElement>, hasMore);
 
     return <div className="grid grid-cols-2 gap-2">
         <PhotoGrid photos={photos}></PhotoGrid>
