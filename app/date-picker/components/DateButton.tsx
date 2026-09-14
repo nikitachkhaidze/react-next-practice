@@ -1,23 +1,22 @@
 import { clsx } from 'clsx';
+import { ComponentProps } from 'react';
 
 type Props = {
   children: React.ReactNode;
-  onClick: () => void,
   isOtherMonth?: boolean;
   isSelected?: boolean;
   isToday?: boolean;
-};
+} & ComponentProps<"button">;
 
 export default function DateButton({
   children,
-  onClick,
   isOtherMonth = false,
   isSelected = false,
   isToday = false,
+  ...props
 }: Readonly<Props>) {
   return (
     <button
-      onClick={onClick}
       type="button"
       className={
         clsx(
@@ -27,6 +26,7 @@ export default function DateButton({
           'bg-[hsl(200,100%,50%)] border border-[hsl(200,100%,50%)] text-white': isToday,
         })
       }
+      {...props}
     >
       {children}
     </button>

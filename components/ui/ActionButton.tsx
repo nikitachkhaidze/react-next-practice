@@ -1,12 +1,12 @@
 import clsx from 'clsx';
+import { ComponentProps } from 'react';
 
 type Props = {
-  onClick: () => void;
   children: React.ReactNode;
   className?: string;
-};
+} & ComponentProps<"button">;
 
-export default function ActionButton({ onClick, children, className }: Readonly<Props>) {
+export default function ActionButton({ children, className, ...props }: Readonly<Props>) {
   return (
     <button
       type="button"
@@ -14,7 +14,7 @@ export default function ActionButton({ onClick, children, className }: Readonly<
         'border-2 p-2 cursor-pointer rounded-lg bg-background text-foreground',
         className,
       )}
-      onClick={onClick}
+      {...props}
     >
       {children}
     </button>
