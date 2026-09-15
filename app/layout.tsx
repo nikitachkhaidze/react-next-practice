@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import NavLink from '@/components/ui/NavLink';
 import { ModalProvider } from '@/providers/ModalContext';
 import { geistMono, geistSans } from './styles/fonts';
 
@@ -18,15 +17,7 @@ export default function RootLayout({
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-zinc-50 dark:bg-black">
         <ModalProvider>
-          <div className="flex flex-col flex-1 px-20 py-10 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-            <nav className="px-50 mb-5">
-              <NavLink href="/">Home</NavLink>
-            </nav>
-
-            <main className="flex flex-col flex-1 w-full max-w-3xl p-16 bg-white dark:bg-black sm:items-start">
-              {children}
-            </main>
-          </div>
+          {children}
         </ModalProvider>
 
         <div id="modal-container"></div>

@@ -1,5 +1,5 @@
-import DateButton from '@/app/date-picker/components/DateButton';
 import { isSameDay, isSameMonth } from 'date-fns';
+import DateButton from './DateButton';
 
 type Props = {
   days: Date[];

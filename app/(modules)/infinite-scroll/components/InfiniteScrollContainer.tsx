@@ -1,6 +1,6 @@
 'use client';
 
-import { ComponentRef, RefObject, useEffect, useRef, useState } from "react"
+import { ComponentRef, RefObject, useRef, useState } from "react"
 import { getPhotos } from "../services/photoApiService";
 import { Photo } from "@/model/photo";
 import PhotoGrid from "./PhotoGrid";

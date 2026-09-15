@@ -1,10 +1,10 @@
 'use client';
 
-import DateGrid from '@/app/date-picker/components/DateGrid';
-import MonthButton from '@/app/date-picker/components/MonthButton';
 import ActionButton from '@/components/ui/ActionButton';
 import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getYear, startOfMonth, startOfWeek, subMonths } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
+import MonthButton from './MonthButton';
+import DateGrid from './DateGrid';
 
 type Props = {
   value: Date;

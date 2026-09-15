@@ -1,14 +1,11 @@
 'use client';
 
 import Image from 'next/image';
+import { ComponentProps } from 'react';
 
 type Props = {
-  src: string;
-  alt: string;
-  width?: number;
-  height?: number;
   color?: string;
-};
+} & ComponentProps<typeof Image>;
 
 export default function PhotoImage({ width, height, src, alt, color }: Readonly<Props>) {
   return (

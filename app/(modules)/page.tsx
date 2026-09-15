@@ -15,6 +15,9 @@ export default function Home() {
         <li>
           <NavLink href={'/infinite-scroll'}>Infinite Scroll</NavLink>
         </li>
+        <li>
+          <NavLink href={'/google-calendar-clone'}>Google Calendar Clone</NavLink>
+        </li>
       </ol>
     </>
   );
