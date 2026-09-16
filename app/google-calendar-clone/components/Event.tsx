@@ -1,7 +1,8 @@
-export default function Event() {
-    return <button className="flex w-full shrink-0 cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap border-none bg-none p-0 text-base">
-        <div className="h-2 w-2 shrink-0 rounded-full bg-(--blue-background)"></div>
-        <div className="text-[#777]">7am</div>
-        <div>Event Name</div>
-    </button>
+import { EventButtonProps } from "../model/calendarEvent";
+import AllDayEvent from "./AllDayEvent";
+import TimedEvent from "./TimedEvent";
+
+
+export default function Event(props: Readonly<EventButtonProps>) {
+    return props.event.time ? <TimedEvent {...props}></TimedEvent> : <AllDayEvent {...props}></AllDayEvent>;
 }
