@@ -1,6 +1,6 @@
 import type { Photo } from '@/model/photo';
 import type { PaginatedResult, FetchPhotosParams } from '../model/photo';
-import { httpService } from '@/utils/httpService';
+import * as httpService from '@/utils/httpService';
 
 export async function getPhotos({
   page = 1,

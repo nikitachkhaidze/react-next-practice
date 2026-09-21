@@ -1,10 +1,11 @@
 'use client';
 
 import ActionButton from '@/components/ui/ActionButton';
-import { differenceInCalendarDays, endOfMonth, endOfWeek, format, getYear, startOfMonth, startOfWeek, subMonths } from 'date-fns';
+import { format, getYear, subMonths } from 'date-fns';
 import { useEffect, useRef, useState } from 'react';
 import MonthButton from './MonthButton';
 import DateGrid from './DateGrid';
+import { getDatesForCalendarPage } from '@/utils/calendarService';
 
 type Props = {
   value: Date;
@@ -46,19 +47,7 @@ export default function DatePicker({value, onChange}: Readonly<Props>) {
     }
   }, [isOpen]);
 
-  const startOfMonthDate = startOfMonth(pageDate);
-  const endOfMonthDate = endOfMonth(pageDate);
-
-  const startOfWeekDate = startOfWeek(startOfMonthDate);
-  const endOfWeekDate = endOfWeek(endOfMonthDate);
-
-  const daysCount = differenceInCalendarDays(endOfWeekDate, startOfWeekDate) + 1;
-
-  const days = Array.from({ length: daysCount }, (_, index) => {
-    const date = new Date(startOfWeekDate);
-    date.setDate(startOfWeekDate.getDate() + index);
-    return date;
-  })
+  const days = getDatesForCalendarPage(pageDate);
 
   const currentMonth = format(pageDate, 'MMMM');
   const currentYear = getYear(pageDate);
