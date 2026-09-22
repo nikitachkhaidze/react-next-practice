@@ -1,4 +1,4 @@
-import { EventButtonProps } from "../model/calendarEvent";
+import { EventButtonProps } from "../../model/calendarEvent";
 import AllDayEvent from "./AllDayEvent";
 import TimedEvent from "./TimedEvent";
 

@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { EventButtonProps } from "../model/calendarEvent";
+import { EventButtonProps } from "../../model/calendarEvent";
 import clsx from "clsx";
 
 export default function TimedEvent({event: {color, time, name}, ...props}: Readonly<EventButtonProps>) {

@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import { Day } from "../model/day";
-import Event from "./Event";
+import Event from "./events/Event";
 
 type Props = {
     day: Day;

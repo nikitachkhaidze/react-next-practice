@@ -1,4 +1,4 @@
-import { EventButtonProps } from "../model/calendarEvent";
+import { EventButtonProps } from "../../model/calendarEvent";
 import clsx from "clsx";
 
 export default function AllDayEvent({event: {name, color}, ...props}: Readonly<EventButtonProps>) {

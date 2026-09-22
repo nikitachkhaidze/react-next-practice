@@ -1,5 +1,5 @@
 import { format, getYear, subMonths } from "date-fns";
-import ArrowButton from "./ArrowButton";
+import ArrowButton from "./ui/ArrowButton";
 
 type Props = {
     selectedDate: Date,
