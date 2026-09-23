@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { Day } from "../model/day";
 import Event from "./events/Event";
+import CloseButton from "./ui/CloseButton";
 
 type Props = {
     day: Day;
@@ -12,14 +13,7 @@ export default function DayModal({day, closeModal}: Readonly<Props>) {
     <div className="z-10 min-w-[300px] max-w-[95%] rounded-lg bg-white p-4 transition-transform duration-250">
       <div className="mb-6 flex items-center justify-between gap-1 text-2xl">
         {format(day.date, 'P')}
-        <button
-          type="button"
-          aria-label="Close"
-          className="h-8 w-8 cursor-pointer rounded-full border-0 bg-transparent p-0 text-center align-middle text-[1.75rem] text-[#333] transition-colors duration-250 hover:bg-[#eaeaea]"
-          onClick={closeModal}
-        >
-          &times;
-        </button>
+        <CloseButton onClick={closeModal}></CloseButton>
       </div>
       <div className="flex grow flex-col gap-2 overflow-hidden">
           {day.events.map((event, index) => <Event key={index} event={event}></Event>)}

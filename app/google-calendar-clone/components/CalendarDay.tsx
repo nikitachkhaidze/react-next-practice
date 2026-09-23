@@ -3,7 +3,7 @@ import { Day } from '../model/day';
 import { format } from 'date-fns';
 import { useModal } from '@/providers/ModalContext';
 import DayModal from './DayModal';
-import { EventFormModal } from './event-form/EventFormModal';
+import EventFormModal from './event-form/EventFormModal';
 
 export default function CalendarDay({date, events}: Readonly<Day>) {
     const hasMoreEvents = true;
@@ -12,7 +12,7 @@ export default function CalendarDay({date, events}: Readonly<Day>) {
     function openEventModal() {
         close();
 
-        open(<EventFormModal></EventFormModal>)
+        open(<EventFormModal date={date} closeModal={close}></EventFormModal>)
     }
 
     function openDayModal() {
