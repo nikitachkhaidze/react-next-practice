@@ -20,8 +20,8 @@ export default function EventFormModal({date, closeModal}: Readonly<Props>) {
           <CloseButton onClick={closeModal}></CloseButton>
         </div>
         <form>
-          <GCTextInput name='name' id="name" label="Name"></GCTextInput>
-          <GCCheckboxInput type="checkbox" name='isAllDay' id="isAllDay" label="All Day"></GCCheckboxInput>
+          <GCTextInput className="mb-2" name='name' id="name" label="Name"></GCTextInput>
+          <GCCheckboxInput className="mb-2" type="checkbox" name='isAllDay' id="isAllDay" label="All Day"></GCCheckboxInput>
           <div className="flex gap-2 mb-4">
             <GCTimeInput name='start-time' label='Start Time'></GCTimeInput>
             <GCTimeInput name='end-time' label='End Time'></GCTimeInput>
