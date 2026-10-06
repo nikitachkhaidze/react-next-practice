@@ -1,9 +1,10 @@
 import { CalendarEventColor } from "../../model/calendarEvent"
 import clsx from "clsx";
+import { ComponentProps } from "react";
 
 type Props = {
     color: CalendarEventColor;
-}
+} & ComponentProps<'input'>
 
 const colorLabelMap = new Map<CalendarEventColor, string>([
     ['blue', 'Blue'],
@@ -11,7 +12,7 @@ const colorLabelMap = new Map<CalendarEventColor, string>([
     ['green', 'Green'],
 ]);
 
-export default function GCColorRadioButton({color}: Readonly<Props>) {
+export default function GCColorRadioButton({color, ...props}: Readonly<Props>) {
     return <>
         <input
             className={clsx(
@@ -23,10 +24,9 @@ export default function GCColorRadioButton({color}: Readonly<Props>) {
                 }
             )}
             type="radio"
-            name="color"
-            value="blue"
-            id="blue"
-            defaultChecked
+            value={color}
+            id={color}
+            {...props}
         />
         <label className={clsx(
             'block size-7 cursor-pointer rounded opacity-25 outline-offset-1',
@@ -36,7 +36,7 @@ export default function GCColorRadioButton({color}: Readonly<Props>) {
                     'bg-[hsl(150,80%,30%)] peer-checked/green:opacity-100 peer-focus-visible/green:outline peer-focus-visible/green:outline-1 peer-focus-visible/green:outline-black': color === 'green'
                 }
             )}
-            htmlFor="blue">
+            htmlFor={color}>
             <span className="sr-only">{colorLabelMap.get(color)}</span>
         </label>
     </>
