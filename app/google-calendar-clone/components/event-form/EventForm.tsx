@@ -6,22 +6,12 @@ import GCEventColorRadioGroup from "./GCEventColorRadioGroup";
 import GCTextInput from "./GCTextInput";
 import GCTimeInput from "./GCTimeInput";
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
+import { EventFormSchema, eventFormSchema } from "../../schemas/eventFormSchema";
 
 type Props = {
   closeModal: () => void;
 }
-
-const eventFormSchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 symbols long'),
-  isAllDay: z.boolean(),
-  startTime: z.iso.time(),
-  endTime: z.iso.time(),
-  color: z.enum(['blue', 'green', 'red']),
-});
-
-type EventFormSchema = z.infer<typeof eventFormSchema>;
 
 export default function EventForm({closeModal}: Readonly<Props>) {
     const {

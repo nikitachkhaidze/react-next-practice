@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import CloseButton from "../ui/CloseButton";
+import IconButton from "../ui/IconButton";
 import EventForm from "./EventForm";
 
 type Props = {
@@ -13,7 +13,7 @@ export default function EventFormModal({date, closeModal}: Readonly<Props>) {
         <div className="mb-6 flex items-center justify-between gap-1 text-2xl">
           <div>Add Event</div>
           <small className="text-[#555]">{format(date, 'P')}</small>
-          <CloseButton onClick={closeModal}></CloseButton>
+          <IconButton onClick={closeModal}>&times;</IconButton>
         </div>
         <EventForm closeModal={closeModal}></EventForm>
       </div>
