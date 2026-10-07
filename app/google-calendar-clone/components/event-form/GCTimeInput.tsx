@@ -1,4 +1,4 @@
-import { ComponentProps } from "react";
+import { ComponentProps, useId } from "react";
 import GCInputLabel from "./GCInputLabel";
 
 export type Props = {
@@ -6,10 +6,13 @@ export type Props = {
     label: string,
 } & ComponentProps<'input'>
 
-export default function GCTimeInput({className, name, label, ...props }: Readonly<Props>) {
-    return <div className={`mb-4 flex min-w-0 grow basis-0 flex-col ${className}`}>
-        <GCInputLabel label={label} htmlFor={name} />
+export default function GCTimeInput({className, id, name, label, ...props }: Readonly<Props>) {
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
 
-        <input className='px-2 py-1 focus-visible:outline-none' type="time" name={name} {...props} />
+    return <div className={`mb-4 flex min-w-0 grow basis-0 flex-col ${className}`}>
+        <GCInputLabel label={label} htmlFor={inputId} />
+
+        <input className='px-2 py-1 focus-visible:outline-none cursor-pointer' type="time" id={inputId} name={name} {...props} />
     </div>
 }

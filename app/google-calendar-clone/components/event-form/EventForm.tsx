@@ -19,12 +19,14 @@ export default function EventForm({closeModal}: Readonly<Props>) {
       register,
       handleSubmit,
       watch,
-      formState: {errors, isSubmitting, isValid}, 
-      reset,
+      formState: {errors, isSubmitting}, 
     } = useForm<EventFormSchema>({
       resolver: zodResolver(eventFormSchema),
       defaultValues: { isAllDay: false, color: 'blue' },
+      mode: 'onBlur',
     });
+
+    const isAllDay = watch('isAllDay');
 
     const onSubmit: SubmitHandler<EventFormSchema> = async (data) => {
       console.log(data, errors, control);
@@ -36,8 +38,8 @@ export default function EventForm({closeModal}: Readonly<Props>) {
       <GCTextInput className="mb-2" label="Name" {...register('name')} error={errors.name}></GCTextInput>
       <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay')}></GCCheckboxInput>
       <div className="flex gap-2 mb-4">
-        <GCTimeInput label='Start Time' {...register('startTime')}></GCTimeInput>
-        <GCTimeInput label='End Time' {...register('endTime')}></GCTimeInput>
+        <GCTimeInput label='Start Time' disabled={isAllDay} {...register('startTime')}></GCTimeInput>
+        <GCTimeInput label='End Time' disabled={isAllDay} {...register('endTime')}></GCTimeInput>
       </div>
       <div className="mb-4 flex flex-col">
         <span className='text-[0.8rem] font-bold text-[#777]'>Color</span>

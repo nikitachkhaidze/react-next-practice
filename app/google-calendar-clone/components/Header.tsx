@@ -17,7 +17,7 @@ export default function Header({selectedDate, onDateChange}: Props) {
     }
 
     return <div className="flex w-full items-center gap-2 p-4">
-        <button className="cursor-pointer rounded border border-(--border-color) bg-none px-4 py-2 text-base text-(--text-color) transition-colors duration-200 hover:bg-(--hover-background)">Today</button>
+        <button className="cursor-pointer rounded border border-(--gc-border-color) bg-none px-4 py-2 text-base transition-colors duration-200 hover:bg-(--gc-hover-background)">Today</button>
         <div>
         <ArrowButton direction="left" onClick={() => onMonthChange(1)}/>
         <ArrowButton direction="right" onClick={() => onMonthChange(-1)}/>

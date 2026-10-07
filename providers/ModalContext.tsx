@@ -1,6 +1,7 @@
 'use client';
 
 import { ModalContextValue } from '@/model/providers';
+import { FocusTrap } from 'focus-trap-react';
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -59,13 +60,15 @@ export function ModalProvider({ children }: Readonly<{ children: React.ReactNode
       {children}
       {isOpen &&
         createPortal(
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-            onKeyDown={onKeyDown}
-            onClick={onBackdropClick}
-          >
-            {content}
-          </div>,
+          <FocusTrap>
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+              onKeyDown={onKeyDown}
+              onClick={onBackdropClick}
+            >
+              {content}
+            </div>
+          </FocusTrap>,
           document.querySelector('#modal-container') as Element,
         )}
     </ModalContext.Provider>

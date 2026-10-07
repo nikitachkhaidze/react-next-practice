@@ -5,7 +5,7 @@ export type Props = {
 } & ComponentProps<'label'>
 
 export default function GCInputLabel({label, ...props}: Readonly<Props>) {
-    return <label className='text-[0.8rem] font-bold text-[#777]' {...props}>
+    return <label className='text-[0.8rem] font-bold text-[#777] cursor-pointer' {...props}>
         {label}
     </label>
 }

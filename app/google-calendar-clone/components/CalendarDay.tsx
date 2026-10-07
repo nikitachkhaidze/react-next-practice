@@ -23,9 +23,9 @@ export default function CalendarDay({date, events}: Readonly<Day>) {
         open(<DayModal day={day} closeModal={close}></DayModal>);
     }
 
-    return  <div className="group flex flex-col overflow-hidden bg-(--surface-color) p-(--day-padding) opacity-75">
+    return  <div className="group flex flex-col overflow-hidden bg-(--gc-surface-color) p-(--gc-day-padding) opacity-75">
         <div className="relative mb-1 flex flex-col items-center opacity-50">
-            <div className="text-xs font-bold uppercase text-(--muted-text-color)">{format(date, 'iii')}</div>
+            <div className="text-xs font-bold uppercase text-(--gc-muted-text-color)">{format(date, 'iii')}</div>
             <div className="flex h-6 w-6 items-center justify-center text-[0.9rem]">{format(date, 'd')}</div>
             <IconButton size='s' className='absolute right-0 top-0' onClick={openEventModal}>+</IconButton>
         </div>
