@@ -2,8 +2,12 @@
 
 import { ModalContextValue } from '@/model/providers';
 import { FocusTrap } from 'focus-trap-react';
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+
+type Props = {
+  children: ReactNode;
+}
 
 const ModalContext = createContext<ModalContextValue | null>(null);
 
@@ -17,7 +21,7 @@ export function useModal() {
   return modalContext;
 }
 
-export function ModalProvider({ children }: Readonly<{ children: React.ReactNode }>) {
+export function ModalProvider({ children }: Readonly<Props>) {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState<React.ReactNode | null>(null);
 

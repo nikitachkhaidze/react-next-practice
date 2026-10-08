@@ -1,11 +1,10 @@
 import clsx from "clsx";
-import { ReactNode } from "react"
+import { ErrorMessage, ErrorMessageProps, FieldValues } from "react-hook-form";
 
-type Props = {
+type Props<T extends FieldValues> = {
   className?: string;
-  children: ReactNode;
-}
+} & ErrorMessageProps<T>;
 
-export default function GCErrorMessage({children, className}: Readonly<Props>) {
-  return <div className={clsx("text-sm text-(--gc-text-red) min-h-5", className)}>{children}</div>
+export default function GCErrorMessage<T extends FieldValues>({className, ...props}: Readonly<Props<T>>) {
+  return <ErrorMessage {...props} render={({message}) => <div className={clsx("text-sm text-(--gc-text-red) min-h-5", className)}>{message}</div>}></ErrorMessage>
 }
