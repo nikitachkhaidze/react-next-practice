@@ -1,7 +1,7 @@
 'use client';
 
 import { ModalContextValue } from '@/model/providers';
-import { FocusTrap } from 'focus-trap-react';
+import { FocusTrap, FocusTrapProps } from 'focus-trap-react';
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -23,7 +23,8 @@ export function useModal() {
 
 export function ModalProvider({ children }: Readonly<Props>) {
   const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState<React.ReactNode | null>(null);
+  const [content, setContent] = useState<ReactNode | null>(null);
+  const [focusTrapProps, setFocusTrapProps] = useState<FocusTrapProps | undefined>();
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
@@ -42,9 +43,10 @@ export function ModalProvider({ children }: Readonly<Props>) {
   const value = useMemo(
     () => ({
       isOpen,
-      open: (content: React.ReactNode | null) => {
+      open: (content: ReactNode | null, focusTrapProps?: FocusTrapProps) => {
         setIsOpen(true);
         setContent(content);
+        setFocusTrapProps(focusTrapProps);
       },
       close: () => setIsOpen(false),
     }),
@@ -64,7 +66,7 @@ export function ModalProvider({ children }: Readonly<Props>) {
       {children}
       {isOpen &&
         createPortal(
-          <FocusTrap>
+          <FocusTrap {...focusTrapProps}>
             <div
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
               onKeyDown={onKeyDown}

@@ -9,7 +9,7 @@ export type Props<T extends FieldValues> = {
     name: FieldPath<T>;
 } & ComponentProps<'input'>
 
-export default function GCTextInput({control, className, id, name, label, ...props }: Readonly<Props>) {
+export default function GCTextInput<T extends FieldValues>({control, className, id, name, label, ...props }: Readonly<Props<T>>) {
     const generatedId = useId();
     const inputId = id ?? generatedId;
 

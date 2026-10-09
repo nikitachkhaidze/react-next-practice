@@ -38,7 +38,7 @@ export default function EventForm({closeModal}: Readonly<Props>) {
     const fields = ['name', 'isAllDay', 'startTime', 'endTime', 'color'] as const;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
-      <GCTextInput className="mb-2" label="Name" {...register('name')} control={control}></GCTextInput>
+      <GCTextInput id='name-input' className="mb-2" label="Name" {...register('name')} control={control}></GCTextInput>
       <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay')}></GCCheckboxInput>
       <div className="flex gap-2 mb-4">
         <GCTimeInput label='Start Time' disabled={isAllDay} {...register('startTime')}></GCTimeInput>

@@ -13,7 +13,10 @@ export default function CalendarDay({date, events}: Readonly<Day>) {
     function openEventModal() {
         close();
 
-        open(<EventFormModal date={date} closeModal={close}></EventFormModal>)
+        open(
+            <EventFormModal date={date} closeModal={close}></EventFormModal>, 
+            {focusTrapOptions: {initialFocus: '#name-input'},
+        });
     }
 
     function openDayModal() {
