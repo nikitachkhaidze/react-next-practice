@@ -1,6 +1,7 @@
 import { ComponentProps } from "react";
 
 export interface CalendarEvent {
+    id: string;
     name: string;
     color: CalendarEventColor;
     time?: CalendarEventTime,

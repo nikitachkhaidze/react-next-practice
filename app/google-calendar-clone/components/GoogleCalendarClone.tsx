@@ -3,7 +3,6 @@
 import { useState } from "react";
 import DayGrid from "./DayGrid";
 import Header from "./Header";
-import { getDaysForCalendarPage } from "@/utils/calendarService";
 import '../styles/gc-clone.css';
 
 export default function GoogleCalendarClone() {
@@ -13,7 +12,10 @@ export default function GoogleCalendarClone() {
         setDate(value);
     }
     
-    const days = getDaysForCalendarPage(date);
+    const days = [{
+        date: new Date(),
+        events: [],
+    }];
     
     return <main className="flex h-full flex-col text-(--gc-text-color)">
         <Header selectedDate={date} onDateChange={onDateChange}/>

@@ -31,7 +31,6 @@ export function put<T>(url: string | URL, body?: unknown): Promise<T> {
   });
 }
 
-// named `del` because `delete` is a reserved word
 export function del<T>(url: string | URL): Promise<T> {
   return request<T>(url, { method: 'DELETE' });
 }
