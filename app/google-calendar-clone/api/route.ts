@@ -1,10 +1,11 @@
-import { NextRequest } from "next/server";
+import { db } from "@/db/db";
+import { eventsTable } from "@/db/schema";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
 
-  const limitParam = searchParams.get('limit');
-  const pageParam = searchParams.get('page');
+  await db.insert(eventsTable).values({ name: 'Sample Event', date: '2026-01-01', color: 'blue', isAllDay: true });
+  const result = await db.select().from(eventsTable);
 
-  const result = await
+  return NextResponse.json(result);
 }

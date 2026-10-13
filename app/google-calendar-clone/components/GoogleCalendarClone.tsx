@@ -1,12 +1,17 @@
 'use client'
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DayGrid from "./DayGrid";
 import Header from "./Header";
 import '../styles/gc-clone.css';
+import { get } from "@/utils/httpService";
 
 export default function GoogleCalendarClone() {
     const [date, setDate] = useState(new Date());
+
+    useEffect(() => {
+        get('google-calendar-clone/api').then(console.log);
+    }, []);
     
     function onDateChange(value: Date) {
         setDate(value);
