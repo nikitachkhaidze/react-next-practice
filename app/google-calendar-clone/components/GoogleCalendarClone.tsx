@@ -1,26 +1,21 @@
 'use client'
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import DayGrid from "./DayGrid";
 import Header from "./Header";
 import '../styles/gc-clone.css';
-import { get } from "@/utils/httpService";
+import { Day } from "../model/day";
 
-export default function GoogleCalendarClone() {
+export type Props = {
+    days: Day[];
+}
+
+export default function GoogleCalendarClone({days}: Readonly<Props>) {
     const [date, setDate] = useState(new Date());
 
-    useEffect(() => {
-        get('google-calendar-clone/api').then(console.log);
-    }, []);
-    
     function onDateChange(value: Date) {
         setDate(value);
     }
-    
-    const days = [{
-        date: new Date(),
-        events: [],
-    }];
     
     return <main className="flex h-full flex-col text-(--gc-text-color)">
         <Header selectedDate={date} onDateChange={onDateChange}/>

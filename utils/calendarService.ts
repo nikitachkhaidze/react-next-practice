@@ -12,9 +12,9 @@ export function getDatesForCalendarPage(selectedDate: Date): Date[] {
     return Array.from({ length: daysCount }, (_, index) => addDays(startDate, index));
 }
 
-export function getCalendarPageRange(selectedDate: Date): { startDate: Date; daysCount: number } {
+export function getCalendarPageRange(selectedDate: Date): { startDate: Date; daysCount: number, endDate: Date } {
     const startDate = startOfWeek(startOfMonth(selectedDate));
     const endDate = endOfWeek(endOfMonth(selectedDate));
 
-    return { startDate, daysCount: differenceInCalendarDays(endDate, startDate) + 1 };
+    return { startDate, daysCount: differenceInCalendarDays(endDate, startDate) + 1, endDate };
 }
