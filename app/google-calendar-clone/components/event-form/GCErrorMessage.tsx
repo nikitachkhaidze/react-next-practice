@@ -6,5 +6,7 @@ type Props<T extends FieldValues> = {
 } & ErrorMessageProps<T>;
 
 export default function GCErrorMessage<T extends FieldValues>({className, ...props}: Readonly<Props<T>>) {
-  return <ErrorMessage {...props} render={({message}) => <div className={clsx("text-sm text-(--gc-text-red) min-h-5", className)}>{message}</div>}></ErrorMessage>
+  return <div className="min-h-6">
+      <ErrorMessage {...props} render={({message}) => <div className={clsx("text-sm text-(--gc-text-red)", className)}>{message}</div>}></ErrorMessage>
+    </div>
 }

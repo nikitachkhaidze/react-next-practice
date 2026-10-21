@@ -43,24 +43,25 @@ export default function EventForm({date, closeModal}: Readonly<Props>) {
        setValues({startTime: '', endTime: ''}, {shouldValidate: true});
     };
 
-    const fields = ['name', 'isAllDay', 'startTime', 'endTime', 'color'] as const;
-
     return <form onSubmit={handleSubmit(onSubmit)}>
       <GCTextInput id='name-input' className="mb-2" label="Name" {...register('name')} control={control}></GCTextInput>
       <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay', {onChange: onIsAllDayChange})}></GCCheckboxInput>
-      <div className="flex gap-2 mb-4">
-        <GCTimeInput label='Start Time' disabled={isAllDay} {...register('startTime')}></GCTimeInput>
-        <GCTimeInput label='End Time' disabled={isAllDay} {...register('endTime')}></GCTimeInput>
+
+      <div className="flex gap-2">
+        <GCTimeInput control={control} label='Start Time' disabled={isAllDay} {...register('startTime')}></GCTimeInput>
+        <GCTimeInput control={control} label='End Time' disabled={isAllDay} {...register('endTime')}></GCTimeInput>
       </div>
+
+      <GCErrorMessage control={control} name='root.timeRange'></GCErrorMessage>
+
       <div className="mb-4 flex flex-col">
         <span className='text-[0.8rem] font-bold text-[#777]'>Color</span>
-
         <GCEventColorRadioGroup {...register('color')}></GCEventColorRadioGroup>
       </div>
-      <div className="flex gap-2">
+
+      <div className="flex gap-2 mb-1">
         <ActionButton color="green" label="Add" disabled={isSubmitting} type="submit"></ActionButton>
         <ActionButton color="red" label="Delete" onClick={closeModal} disabled={isSubmitting}></ActionButton>
       </div>
-      {fields.map(field => <GCErrorMessage key={field} name={field} control={control}></GCErrorMessage>)}
     </form> 
 }
