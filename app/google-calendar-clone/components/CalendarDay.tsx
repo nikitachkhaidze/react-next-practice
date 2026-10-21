@@ -33,8 +33,8 @@ export default function CalendarDay({date, events}: Readonly<Day>) {
             <IconButton size='s' className='absolute right-0 top-0' onClick={openEventModal}>+</IconButton>
         </div>
         <div className="flex grow flex-col gap-2 overflow-hidden opacity-50">
-            {events.map((event, index) => <Event key={index} event={event}></Event>)}
+            {events.map((event) => <Event key={event.id} event={event}></Event>)}
         </div>
-        {hasMoreEvents && <div className='text-xs m-0 ml-auto mr-auto cursor-pointer' onClick={openDayModal}>+ 3 more</div>}
+        {hasMoreEvents && <div className='text-xs m-0 ml-auto mr-auto cursor-pointer' onClick={openDayModal}>+ {events.length} more</div>}
     </div>
 }

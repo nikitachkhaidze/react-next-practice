@@ -9,21 +9,25 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import { EventFormSchema, eventFormSchema } from "../../schemas/eventFormSchema";
 import GCErrorMessage from "./GCErrorMessage";
+import { getDateKey } from "../../utils/getDateKey";
+import { createEventAction } from "../../actions/actions";
 
 type Props = {
+  date: Date;
   closeModal: () => void;
 }
 
-export default function EventForm({closeModal}: Readonly<Props>) {
+export default function EventForm({date, closeModal}: Readonly<Props>) {
     const {
       control,
       register,
       handleSubmit,
       watch,
+      setValues,
       formState: {errors, isSubmitting}, 
     } = useForm<EventFormSchema>({
       resolver: zodResolver(eventFormSchema),
-      defaultValues: { isAllDay: false, color: 'blue' },
+      defaultValues: { isAllDay: false, color: 'blue', date: getDateKey(date) },
       mode: 'onBlur',
     });
 
@@ -31,15 +35,19 @@ export default function EventForm({closeModal}: Readonly<Props>) {
 
     const onSubmit: SubmitHandler<EventFormSchema> = async (data) => {
       console.log(data, errors, control);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await createEventAction(data);
       closeModal();
+    };
+
+    const onIsAllDayChange = () => {
+       setValues({startTime: '', endTime: ''}, {shouldValidate: true});
     };
 
     const fields = ['name', 'isAllDay', 'startTime', 'endTime', 'color'] as const;
 
     return <form onSubmit={handleSubmit(onSubmit)}>
       <GCTextInput id='name-input' className="mb-2" label="Name" {...register('name')} control={control}></GCTextInput>
-      <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay')}></GCCheckboxInput>
+      <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay', {onChange: onIsAllDayChange})}></GCCheckboxInput>
       <div className="flex gap-2 mb-4">
         <GCTimeInput label='Start Time' disabled={isAllDay} {...register('startTime')}></GCTimeInput>
         <GCTimeInput label='End Time' disabled={isAllDay} {...register('endTime')}></GCTimeInput>

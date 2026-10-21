@@ -15,7 +15,7 @@ export default function EventFormModal({date, closeModal}: Readonly<Props>) {
           <small className="text-[#555]">{format(date, 'P')}</small>
           <IconButton onClick={closeModal}>&times;</IconButton>
         </div>
-        <EventForm closeModal={closeModal}></EventForm>
+        <EventForm date={date} closeModal={closeModal}></EventForm>
       </div>
   </>;
 }

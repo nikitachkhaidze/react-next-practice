@@ -1,14 +1,19 @@
+import "server-only"
+
 import { db } from "@/db/db";
 import { eventsTable } from "@/db/schema";
-import { format } from "date-fns";
-import { DateKey } from "../model/day";
 import { gte, and, lte } from "drizzle-orm";
+import { getDateKey } from "../utils/getDateKey";
+import { EventFormSchema } from "../schemas/eventFormSchema";
+import { CalendarEvent } from "../model/calendarEvent";
+import { parseISO } from "date-fns";
+import { CalendarEventRow } from "./model/calendarEventRow";
 
 export async function getEventsForCalendarMonth(startDate: Date, endDate: Date) {
     const startDateKey = getDateKey(startDate);
     const endDateKey = getDateKey(endDate);
 
-    const result = await db.select().from(eventsTable).where(
+    const result: typeof eventsTable.$inferSelect[] = await db.select().from(eventsTable).where(
         and(
             gte(eventsTable.date, startDateKey),
             lte(eventsTable.date, endDateKey)
@@ -18,6 +23,19 @@ export async function getEventsForCalendarMonth(startDate: Date, endDate: Date) 
     return result;
 }
 
-export function getDateKey(date: Date): DateKey {
-    return format(date, 'yyyy-MM-dd') as DateKey;
+export async function insertEvent(event: EventFormSchema) {
+    await db.insert(eventsTable).values(event);
+}
+
+export function toCalendarEvent(event: CalendarEventRow): CalendarEvent {
+    return {
+        id: String(event.id),
+        name: event.name,
+        color: event.color,
+        isAllDay: event.isAllDay,
+        time: !event.isAllDay && event.startTime && event.endTime ? {
+            startTime: parseISO(event.startTime),
+            endTime: parseISO(event.endTime),
+        } : undefined,
+    };
 }

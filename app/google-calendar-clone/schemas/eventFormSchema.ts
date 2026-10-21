@@ -3,6 +3,7 @@ import z from "zod";
 const baseSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 symbols long'),
   color: z.enum(['blue', 'green', 'red']),
+  date: z.string(),
 })
 
 export const eventFormSchema = z.discriminatedUnion('isAllDay', [

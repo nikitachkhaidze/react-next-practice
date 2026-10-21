@@ -4,6 +4,7 @@ export interface CalendarEvent {
     id: string;
     name: string;
     color: CalendarEventColor;
+    isAllDay: boolean;
     time?: CalendarEventTime,
 }
 

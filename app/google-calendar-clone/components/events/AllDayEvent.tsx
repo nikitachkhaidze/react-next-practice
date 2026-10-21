@@ -4,7 +4,7 @@ import clsx from "clsx";
 export default function AllDayEvent({event: {name, color}, ...props}: Readonly<EventButtonProps>) {
     const buttonClassName = clsx(
         'flex w-full shrink-0 cursor-pointer items-center gap-2 overflow-hidden whitespace-nowrap rounded px-1 py-[0.15rem] text-base text-(--gc-surface-color)',
-        {'bg-(--gc-blue-background)': color === 'blue', 'bg-(--gc-green-background)': color === 'green'},
+        {'bg-(--gc-blue-background)': color === 'blue', 'bg-(--gc-green-background)': color === 'green', 'bg-(--gc-red-background)': color === 'red'},
     );
 
     return <button className={buttonClassName} {...props}>

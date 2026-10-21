@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import GoogleCalendarClone from "./components/GoogleCalendarClone";
 import { SearchParams } from "./model/searchParams";
 import { getCalendarDaysByDate } from "./server/calendarService";
-import { getDateKey } from "./server/calendarDataService";
+import { getDateKey } from "./utils/getDateKey";
 
 type Props = {
     searchParams: Promise<SearchParams>;
