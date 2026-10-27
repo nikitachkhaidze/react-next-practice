@@ -1,7 +1,7 @@
 import { ComponentProps } from "react";
 
 export interface CalendarEvent {
-    id: string;
+    id: number;
     name: string;
     color: CalendarEventColor;
     isAllDay: boolean;

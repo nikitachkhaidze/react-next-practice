@@ -10,7 +10,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import { EventFormSchema, eventFormSchema } from "../../schemas/eventFormSchema";
 import GCErrorMessage from "./GCErrorMessage";
 import { getDateKey } from "../../utils/getDateKey";
-import { createEventAction } from "../../actions/actions";
+import { createEventAction, editEventAction } from "../../actions/actions";
 import { CalendarEvent } from "../../model/calendarEvent";
 
 type Props = {
@@ -36,7 +36,12 @@ export default function EventForm({editedEvent, date, closeModal}: Readonly<Prop
     const isAllDay = watch('isAllDay');
 
     const onSubmit: SubmitHandler<EventFormSchema> = async (data) => {
-      await createEventAction(data);
+      if (editedEvent) {
+        await editEventAction(editedEvent.id, data)
+      } else {
+        await createEventAction(data);
+      }
+
       closeModal();
     };
 

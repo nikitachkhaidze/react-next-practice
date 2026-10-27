@@ -2,12 +2,11 @@ import "server-only"
 
 import { db } from "@/db/db";
 import { eventsTable } from "@/db/schema";
-import { gte, and, lte } from "drizzle-orm";
+import { gte, and, lte, eq } from "drizzle-orm";
 import { getDateKey } from "../utils/getDateKey";
-import { EventFormSchema } from "../schemas/eventFormSchema";
 import { CalendarEvent } from "../model/calendarEvent";
-import { parseISO } from "date-fns";
 import { CalendarEventRow } from "./model/calendarEventRow";
+import { EventFormSchema } from "../schemas/eventFormSchema";
 
 export async function getEventsForCalendarMonth(startDate: Date, endDate: Date) {
     const startDateKey = getDateKey(startDate);
@@ -27,9 +26,13 @@ export async function insertEvent(event: EventFormSchema) {
     await db.insert(eventsTable).values(event);
 }
 
+export async function updateEvent(event: CalendarEventRow) {
+    await db.update(eventsTable).set(event).where(eq(eventsTable.id, event.id));
+}
+
 export function toCalendarEvent(event: CalendarEventRow): CalendarEvent {
     return {
-        id: String(event.id),
+        id: event.id,
         name: event.name,
         color: event.color,
         isAllDay: event.isAllDay,
