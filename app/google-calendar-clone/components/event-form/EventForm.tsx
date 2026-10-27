@@ -11,30 +11,31 @@ import { EventFormSchema, eventFormSchema } from "../../schemas/eventFormSchema"
 import GCErrorMessage from "./GCErrorMessage";
 import { getDateKey } from "../../utils/getDateKey";
 import { createEventAction } from "../../actions/actions";
+import { CalendarEvent } from "../../model/calendarEvent";
 
 type Props = {
+  editedEvent?: CalendarEvent;
   date: Date;
   closeModal: () => void;
 }
 
-export default function EventForm({date, closeModal}: Readonly<Props>) {
+export default function EventForm({editedEvent, date, closeModal}: Readonly<Props>) {
     const {
       control,
       register,
       handleSubmit,
       watch,
       setValues,
-      formState: {errors, isSubmitting}, 
+      formState: {isSubmitting}, 
     } = useForm<EventFormSchema>({
       resolver: zodResolver(eventFormSchema),
-      defaultValues: { isAllDay: false, color: 'blue', date: getDateKey(date) },
+      defaultValues: getFormInitialValues(date, editedEvent),
       mode: 'onBlur',
     });
 
     const isAllDay = watch('isAllDay');
 
     const onSubmit: SubmitHandler<EventFormSchema> = async (data) => {
-      console.log(data, errors, control);
       await createEventAction(data);
       closeModal();
     };
@@ -60,8 +61,29 @@ export default function EventForm({date, closeModal}: Readonly<Props>) {
       </div>
 
       <div className="flex gap-2 mb-1">
-        <ActionButton color="green" label="Add" disabled={isSubmitting} type="submit"></ActionButton>
-        <ActionButton color="red" label="Delete" onClick={closeModal} disabled={isSubmitting}></ActionButton>
+        <ActionButton color="red" label="Cancel" onClick={closeModal} disabled={isSubmitting}></ActionButton>
+        {editedEvent && <ActionButton color="green" label="Edit" disabled={isSubmitting} type="submit"></ActionButton>}
+        {!editedEvent && <ActionButton color="green" label="Add" disabled={isSubmitting} type="submit"></ActionButton>}
       </div>
     </form> 
+}
+
+function getFormInitialValues(date: Date, editedEvent?: CalendarEvent): EventFormSchema {
+  if (!editedEvent) {
+    return { 
+      name: '',
+      isAllDay: false, 
+      color: 'blue', 
+      startTime: '',
+      endTime: '',
+      date: getDateKey(date), 
+    }
+  }
+
+  return {
+    ...editedEvent,
+    startTime: editedEvent.time?.startTime ?? '',
+    endTime: editedEvent.time?.endTime ?? '',    
+    date: getDateKey(date),
+  }
 }

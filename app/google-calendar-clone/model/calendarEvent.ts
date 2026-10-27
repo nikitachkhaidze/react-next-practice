@@ -10,8 +10,8 @@ export interface CalendarEvent {
 
 export type CalendarEventColor = 'blue' | 'green' | 'red';
 export type CalendarEventTime = {
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
 }
 
 export type EventButtonProps = {event: CalendarEvent} & ComponentProps<'button'>;

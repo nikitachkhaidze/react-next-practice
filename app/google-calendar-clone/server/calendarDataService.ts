@@ -34,8 +34,8 @@ export function toCalendarEvent(event: CalendarEventRow): CalendarEvent {
         color: event.color,
         isAllDay: event.isAllDay,
         time: !event.isAllDay && event.startTime && event.endTime ? {
-            startTime: parseISO(event.startTime),
-            endTime: parseISO(event.endTime),
+            startTime: event.startTime,
+            endTime: event.endTime,
         } : undefined,
     };
 }

@@ -5,16 +5,17 @@ import { useModal } from '@/providers/ModalContext';
 import DayModal from './DayModal';
 import EventFormModal from './event-form/EventFormModal';
 import IconButton from './ui/IconButton';
+import { CalendarEvent } from '../model/calendarEvent';
 
 export default function CalendarDay({date, events}: Readonly<Day>) {
     const hasMoreEvents = true;
     const {open, close} = useModal()
 
-    function openEventModal() {
+    function openEventFormModal(editedEvent?: CalendarEvent) {
         close();
 
         open(
-            <EventFormModal date={date} closeModal={close}></EventFormModal>, 
+            <EventFormModal editedEvent={editedEvent} date={date} closeModal={close}></EventFormModal>, 
             {focusTrapOptions: {initialFocus: '#name-input'},
         });
     }
@@ -30,10 +31,10 @@ export default function CalendarDay({date, events}: Readonly<Day>) {
         <div className="relative mb-1 flex flex-col items-center opacity-50">
             <div className="text-xs font-bold uppercase text-(--gc-muted-text-color)">{format(date, 'iii')}</div>
             <div className="flex h-6 w-6 items-center justify-center text-[0.9rem]">{format(date, 'd')}</div>
-            <IconButton size='s' className='absolute right-0 top-0' onClick={openEventModal}>+</IconButton>
+            <IconButton size='s' className='absolute right-0 top-0' onClick={() => openEventFormModal()}>+</IconButton>
         </div>
         <div className="flex grow flex-col gap-2 overflow-hidden opacity-50">
-            {events.map((event) => <Event key={event.id} event={event}></Event>)}
+            {events.map((event) => <Event key={event.id} event={event} onClick={() => openEventFormModal(event)}></Event>)}
         </div>
         {hasMoreEvents && <div className='text-xs m-0 ml-auto mr-auto cursor-pointer' onClick={openDayModal}>+ {events.length} more</div>}
     </div>
