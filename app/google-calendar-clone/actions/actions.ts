@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { eventFormSchema, EventFormSchema } from "../schemas/eventFormSchema";
-import { insertEvent, updateEvent } from "../server/calendarDataService";
+import { deleteEvent, insertEvent, updateEvent } from "../server/calendarDataService";
 import { CalendarEventRow } from "../server/model/calendarEventRow";
 
 export async function createEventAction(event: EventFormSchema) {
@@ -32,6 +32,12 @@ export async function editEventAction(id: number, event: EventFormSchema) {
     };
 
     await updateEvent(updatedEvent);
+    
+    revalidatePath('/google-calendar-clone');
+}
+
+export async function deleteEventAction(id: number) {
+    await deleteEvent(id);
     
     revalidatePath('/google-calendar-clone');
 }

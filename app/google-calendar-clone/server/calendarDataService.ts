@@ -30,6 +30,10 @@ export async function updateEvent(event: CalendarEventRow) {
     await db.update(eventsTable).set(event).where(eq(eventsTable.id, event.id));
 }
 
+export async function deleteEvent(id: number) {
+    await db.delete(eventsTable).where(eq(eventsTable.id, id));
+}
+
 export function toCalendarEvent(event: CalendarEventRow): CalendarEvent {
     return {
         id: event.id,

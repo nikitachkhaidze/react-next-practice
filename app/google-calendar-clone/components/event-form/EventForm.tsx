@@ -10,7 +10,7 @@ import {zodResolver} from '@hookform/resolvers/zod';
 import { EventFormSchema, eventFormSchema } from "../../schemas/eventFormSchema";
 import GCErrorMessage from "./GCErrorMessage";
 import { getDateKey } from "../../utils/getDateKey";
-import { createEventAction, editEventAction } from "../../actions/actions";
+import { createEventAction, deleteEventAction, editEventAction } from "../../actions/actions";
 import { CalendarEvent } from "../../model/calendarEvent";
 
 type Props = {
@@ -49,6 +49,13 @@ export default function EventForm({editedEvent, date, closeModal}: Readonly<Prop
        setValues({startTime: '', endTime: ''}, {shouldValidate: true});
     };
 
+    const onDelete = async () => {
+      if (editedEvent) {
+        await deleteEventAction(editedEvent.id);
+        closeModal();
+      }
+    }
+
     return <form onSubmit={handleSubmit(onSubmit)}>
       <GCTextInput id='name-input' className="mb-2" label="Name" {...register('name')} control={control}></GCTextInput>
       <GCCheckboxInput className="mb-2" type="checkbox" label="All Day" {...register('isAllDay', {onChange: onIsAllDayChange})}></GCCheckboxInput>
@@ -66,8 +73,10 @@ export default function EventForm({editedEvent, date, closeModal}: Readonly<Prop
       </div>
 
       <div className="flex gap-2 mb-1">
-        <ActionButton color="red" label="Cancel" onClick={closeModal} disabled={isSubmitting}></ActionButton>
-        {editedEvent && <ActionButton color="green" label="Edit" disabled={isSubmitting} type="submit"></ActionButton>}
+        {editedEvent && <>
+          <ActionButton color="red" label="Delete" disabled={isSubmitting} onClick={onDelete}></ActionButton>
+          <ActionButton color="green" label="Edit" disabled={isSubmitting} type="submit"></ActionButton>
+        </>}
         {!editedEvent && <ActionButton color="green" label="Add" disabled={isSubmitting} type="submit"></ActionButton>}
       </div>
     </form> 
