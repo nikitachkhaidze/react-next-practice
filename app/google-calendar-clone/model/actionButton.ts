@@ -1,1 +1,1 @@
-export type ActionButtonColor = 'red' | 'green';
+export type ActionButtonColor = 'red' | 'green' | 'white';

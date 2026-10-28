@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { parseISO } from "date-fns";
 import GoogleCalendarClone from "./components/GoogleCalendarClone";
 import { SearchParams } from "./model/searchParams";
 import { getCalendarDaysByDate } from "./server/calendarService";
@@ -17,5 +18,5 @@ export default async function GoogleCalendarClonePage({searchParams}: Readonly<P
 
     const days = await getCalendarDaysByDate(date);
 
-    return <GoogleCalendarClone days={days}></GoogleCalendarClone>
+    return <GoogleCalendarClone date={parseISO(date)} days={days}></GoogleCalendarClone>
 }

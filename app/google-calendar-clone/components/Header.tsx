@@ -1,23 +1,32 @@
+'use client';
+
 import { format, getYear, subMonths } from "date-fns";
+import { useRouter } from "next/navigation";
 import ArrowButton from "./ui/ArrowButton";
+import { getDateKey } from "../utils/getDateKey";
+import ActionButton from "./ui/ActionButton";
 
 type Props = {
     selectedDate: Date,
-    onDateChange: (value: Date) => void;
 }
 
-export default function Header({selectedDate, onDateChange}: Props) {
+export default function Header({selectedDate}: Props) {
+    const router = useRouter();
     const currentMonth = format(selectedDate, 'MMMM');
     const currentYear = getYear(selectedDate);
 
     function onMonthChange(amount: number) {
         const newValue = subMonths(selectedDate, amount);
         
-        onDateChange(newValue);
+        navigateToDate(newValue);
+    }
+
+    function navigateToDate(date: Date) {
+        router.push(`/google-calendar-clone?date=${getDateKey(date)}`);
     }
 
     return <div className="flex w-full items-center gap-2 p-4">
-        <button className="cursor-pointer rounded border border-(--gc-border-color) bg-none px-4 py-2 text-base transition-colors duration-200 hover:bg-(--gc-hover-background)">Today</button>
+        <ActionButton color="white" label="Today" className="grow-0" onClick={() => navigateToDate(new Date())}></ActionButton>
         <div>
         <ArrowButton direction="left" onClick={() => onMonthChange(1)}/>
         <ArrowButton direction="right" onClick={() => onMonthChange(-1)}/>

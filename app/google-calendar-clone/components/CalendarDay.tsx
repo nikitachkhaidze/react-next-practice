@@ -1,3 +1,5 @@
+'use client';
+
 import Event from './events/Event';
 import { Day } from '../model/day';
 import { format } from 'date-fns';
